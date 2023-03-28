@@ -21,13 +21,16 @@
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
+    paper/url/.value required,
+    license/version/.store in = \osda@license@version,
+    license/url/.store in = \osda@license@url,
     license/long/.store in = \osda@license@long,
     license/short/.store in = \osda@license@short,
     proceedings/title/.store in = \osda@proceedings@title,
     proceedings/startpage/.store in = \osda@proceedings@startpage,
     proceedings/endpage/.store in = \osda@proceedings@endpage,
     proceedings/year/.store in = \osda@proceedings@year,
-    workshop/number/.store in = \osda@workshop@number,
+    workshop/counter/.store in = \osda@workshop@counter,
     workshop/longname/.store in = \osda@workshop@longname,
     workshop/acronym/.store in = \osda@workshop@acronym,
     workshop/year/.store in = \osda@workshop@year,
@@ -39,6 +42,70 @@
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
     hostconference/year/.store in = \osda@hostconference@year,
+    %
+    % Default values for specific editions of OSDA
+    %
+    2023/.style={
+        paper/url = https://osda.ws,
+%        license/version = 4.0,
+%        license/long = Creative Commons Attribution \osda@license@version International license,
+%        license/short = CC BY \osda@license@version,
+        proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
+        proceedings/startpage = 1,
+        proceedings/endpage = 6,
+        proceedings/year = 2023,
+        workshop/counter = 3rd,
+        workshop/longname = Workshop on Open-Source Design Automation,
+        workshop/acronym = OSDA,
+        workshop/year = 2023,
+        location/city = Antwerp,
+        location/country = Belgium,
+        date/month = April,
+        date/day = 17,
+        date/year = 2023,
+        hostconference/longname = {Design, Automation, and Test in Europe Conference},
+        hostconference/acronym = DATE,
+        hostconference/year = 2023,
+    },
+    %
+    % Licenses
+    %
+    cc-by/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by/4.0,
+        license/long = Creative Commons Attribution license,
+        license/short = CC BY,
+    },
+    cc-by-sa/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-sa/4.0,
+        license/long = Creative Commons Attribution-ShareAlike license,
+        license/short = CC BY-SA,
+    },
+    cc-by-nc-sa/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-nc-sa/4.0,
+        license/long = Creative Commons Attribution-Noncommercial-ShareAlike license,
+        license/short = CC BY-NC-SA,
+    },
+    cc-by-nc-nd/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-nc-nd/4.0,
+        license/long = Creative Commons Attribution-Noncommercial-NoDerivatives license,
+        license/short = CC BY-NC-ND,
+    },
+    arXiv/.style={
+        license/version = 1.0,
+        license/url = https://arxiv.org/licenses/nonexclusive-distrib/1.0,
+        license/long = {arXiv.org perpetual, non-exclusive license},
+        license/short =,
+    },
+    cc0/.style={
+        license/version =,
+        license/url = https://creativecommons.org/share-your-work/public-domain/cc0,
+        license/long = Public Domain license,
+        license/short = CC0,
+    },
 }
 
 
@@ -161,27 +228,40 @@
 %}}
 \providecommand{\osdacopyright}{
 \blfootnote{\WrapLR%
-    {\href{\osda@paper@url}{\osdalogo{1.5cm}}}
-    {\href{\osda@paper@url}{\qrcode[height=1.5cm]{\osda@paper@url}}}
+    {\href{\osda@paper@url{}}{\osdalogo{1.5cm}}}
+    {\href{\osda@paper@url{}}{\qrcode[height=1.5cm]{\osda@paper@url}}}
     {\noindent%
         The copyright is retained by the authors.
-        This work is licensed under the terms of the \osda@license@long\relax (\osda@license@short)
-        and was presented at the \emph{\osda@workshop@number
-        \osda@workshop@longname (\osda@workshop@acronym) \osda@workshop@year},
-        \ifthenelse{\isundefined{\osda@hostconference@longname}}{
-        }{
-            co-hosted with \emph{\osda@hostconference@longname} 
-            \ifthenelse{\isundefined{\osda@hostconference@acronym}}{
-            }{
+        This work is licensed under the terms of the
+        \osda@license@long{}
+        \ifthenelse{\isundefined{\osda@license@short} \or \equal{\osda@license@short}{}}{%
+        }{ %
+            (\osda@license@short)
+        }%
+        \ifthenelse{\isundefined{\osda@license@version} \or \equal{\osda@license@version}{}}{%
+        }{, %
+            version \osda@license@version
+        }%
+        \ifthenelse{\isundefined{\osda@license@url} \or \equal{\osda@license@url}{}}{%
+        }{ %
+            (\href{\osda@license@url{}}{\osda@license@url})
+        }%
+        and was presented at the \emph{\osda@workshop@counter{}
+        \osda@workshop@longname{} (\osda@workshop@acronym) \osda@workshop@year{}},
+        \ifthenelse{\isundefined{\osda@hostconference@longname}}{%
+        }{%
+            co-hosted with \emph{\osda@hostconference@longname} %
+            \ifthenelse{\isundefined{\osda@hostconference@acronym}}{%
+            }{%
                 \emph{(\osda@hostconference@acronym)}
-            }
-            \ifthenelse{\isundefined{\osda@hostconference@year}}{
-            }{
+            }%
+            \ifthenelse{\isundefined{\osda@hostconference@year}}{%
+            }{%
                 \emph{\osda@hostconference@year}
-            }
-        }
-        in \osda@location@city, \osda@location@country on
-        \osda@date@month \osda@date@day, \osda@date@year.  For further
+            }%
+        }%
+        in \osda@location@city{}, \osda@location@country{} on
+        \osda@date@month{} \osda@date@day{}, \osda@date@year{}.  For further
         information and material, please visit the paper's web page on the
         workshop website at \href{\osda@paper@url}{\textbf{\osda@paper@url}}
         (just scan the QR code above).
@@ -193,45 +273,3 @@
 }}
 %
 %--- End of OSDA Proceedings packages ---%
-
-%\osda@paper@url = https://osda.ws
-%\osda@license@long = Creative Commons Attribution 4.0 International license
-%\osda@license@short = CC BY 4.0
-%\osda@proceedings@title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)
-%\osda@proceedings@startpage = 1
-%\osda@proceedings@endpage = 6
-%\osda@proceedings@year = 2023
-%\osda@workshop@number = 3rd
-%\osda@workshop@longname = Workshop on Open-Source Design Automation
-%\osda@workshop@acronym = OSDA
-%\osda@workshop@year = 2023
-%\osda@location@city = Antwerp
-%\osda@location@country = Belgium
-%\osda@date@month = April
-%\osda@date@day = 14
-%\osda@date@year = 2023
-%\osda@hostconference@longname = Design, Automation, and Test in Europe Conference
-%\osda@hostconference@acronym = DATE
-%\osda@hostconference@year = 2023 
-
-%\pgfkeys {
-%    paper/url,
-%    license/long={Creative Commons Attribution 4.0 International license},
-%    license/short={},
-%    proceedings/title,
-%    proceedings/startpage,
-%    proceedings/endpage,
-%    proceedings/year,
-%    workshop/number,
-%    workshop/longname,
-%    workshop/acronym,
-%    workshop/year,
-%    location/city,
-%    location/country,
-%    date/month,
-%    date/day,
-%    date/year,
-%    hostconference/longname,
-%    hostconference/acronym,
-%    hostconference/year,
-%}
