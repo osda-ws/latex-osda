@@ -5,6 +5,12 @@
 \RequirePackage[hang,flushmargin]{footmisc}
 \RequirePackage{flushend}
 \RequirePackage{qrcode}
+\RequirePackage{hyperref}
+\hypersetup{
+	colorlinks = true,
+	allcolors  = black,
+}
+\RequirePackage{tikz}
 
 %
 % WrapLR
@@ -112,12 +118,12 @@
         Europe Conference (DATE) 2023} in Antwerp, Belgium on April 17, 2023.
         For further information and material, please visit the paper's web page on the
         workshop website at
-        \href{#1}{\textbf{#1} (just scan the QR code above).
+        \href{#1}{\textbf{#1}} (just scan the QR code above).
         %
         \emph{Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)},
         Pages 1--6, 2023.
     }%
     \vspace{-1.5\baselineskip}
-}}}
+}}
 %
 %--- End of OSDA Proceedings packages ---%
