@@ -1,9 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{osda23}[2023/03/28 OSDA 2023 Copyright Notice]
+\ProvidesPackage{osda}[2023/03/28 OSDA 2023 Copyright Notice]
 
 %--- Begin of OSDA Proceedings packages ---%
 \RequirePackage[hang,flushmargin]{footmisc}
 \RequirePackage{flushend}
+\RequirePackage{ifthen}
 \RequirePackage{qrcode}
 \RequirePackage{hyperref}
 \hypersetup{
@@ -11,6 +12,39 @@
 	allcolors  = black,
 }
 \RequirePackage{tikz}
+\RequirePackage{pgfopts}
+%\pgfkeys{
+%    /osda/.cd,
+%    title/.store in=\osda@title,
+%    license/long/.store in=\osda@license@long,
+%}
+\pgfkeys {
+    /osda/.cd,
+    paper/url/.store in = \osda@paper@url,
+    license/long/.store in = \osda@license@long,
+    license/short/.store in = \osda@license@short,
+    proceedings/title/.store in = \osda@proceedings@title,
+    proceedings/startpage/.store in = \osda@proceedings@startpage,
+    proceedings/endpage/.store in = \osda@proceedings@endpage,
+    proceedings/year/.store in = \osda@proceedings@year,
+    workshop/number/.store in = \osda@workshop@number,
+    workshop/longname/.store in = \osda@workshop@longname,
+    workshop/acronym/.store in = \osda@workshop@acronym,
+    workshop/year/.store in = \osda@workshop@year,
+    location/city/.store in = \osda@location@city,
+    location/country/.store in = \osda@location@country,
+    date/month/.store in = \osda@date@month,
+    date/day/.store in = \osda@date@day,
+    date/year/.store in = \osda@date@year,
+    hostconference/longname/.store in = \osda@hostconference@longname,
+    hostconference/acronym/.store in = \osda@hostconference@acronym,
+    hostconference/year/.store in = \osda@hostconference@year,
+}
+
+
+\ProcessPgfPackageOptions{/osda}
+
+\newcommand{\osdasetup}[1]{\pgfkeys{/osda/.cd,#1}}
 
 %
 % WrapLR
@@ -86,11 +120,11 @@
 %     \osdalogo{1.5cm}
 %
 \usetikzlibrary{svg.path}
-\providecommand{\osdalogo}[1]{\scalebox{1}[-1]{\resizebox*{#1}{!} {
-\begin{tikzpicture}
-    \pgfpathsvg{m 41.493525,114.88969 c -4.235403,-0.0951 -5.244524,4.38987 -4.853967,7.74446 0.06465,11.92294 -0.129872,23.85884 0.09828,35.77361 0.660896,3.83742 4.80625,4.07909 7.908947,3.87335 36.559883,0 73.119765,0 109.679645,0 4.2354,0.0951 5.24452,-4.38987 4.85397,-7.74445 -0.0647,-11.92294 0.12987,-23.85884 -0.0983,-35.77361 -0.6609,-3.83742 -4.80625,-4.07909 -7.90895,-3.87336 -36.55988,0 -73.119759,0 -109.679642,0 z m 15.406294,9.3338 c 7.083699,-0.16814 13.650363,5.59034 14.408423,12.6354 0.773555,-7.32725 7.848415,-13.19963 15.192447,-12.61203 5.305345,0.24729 10.291595,3.68656 12.407418,8.55802 -4.449622,-0.0531 -9.052306,0.10604 -13.406456,-0.0794 -0.839139,-2.90692 -5.235964,-3.40946 -6.707523,-0.76424 -1.678739,2.40924 0.506129,6.05789 3.422128,5.71655 1.497283,-0.0812 2.873132,-1.15803 3.311785,-2.59192 4.718573,0 9.43715,0 14.155724,0 0.08339,-2.35529 -0.165262,-4.8569 0.121518,-7.12255 5.339507,-5.05446 14.506947,-4.9329 19.710957,0.26069 2.32206,2.20209 3.8742,5.19535 4.33608,8.36202 0.90939,-7.27195 8.02238,-12.99336 15.31906,-12.32891 7.37799,0.33186 13.674,7.07245 13.50245,14.45591 0.0496,5.18443 -2.94531,10.24647 -7.51324,12.69897 -1.2907,-3.10635 -2.86729,-6.27677 -3.98135,-9.34353 2.57226,-2.09161 1.63297,-6.69649 -1.5515,-7.61542 -3.0763,-1.19911 -6.61783,1.86093 -5.86635,5.08096 0.22078,1.22057 0.97501,2.33122 2.02814,2.98654 -1.33651,3.06304 -2.67302,6.12607 -4.00953,9.18911 -4.21173,-2.03739 -7.27498,-6.23733 -7.9282,-10.87014 -0.9141,7.33051 -8.13486,13.07383 -15.48271,12.31672 -3.21287,-0.24801 -6.32487,-1.6114 -8.68532,-3.8051 0,-2.30873 0,-4.61746 0,-6.92619 -1.727782,7.19313 -9.563391,12.09549 -16.787442,10.50764 -4.612862,-0.86727 -8.678534,-4.13841 -10.513216,-8.45867 4.434157,0.0533 9.021826,-0.10629 13.360463,0.0794 0.820198,2.82501 5.042639,3.41435 6.604149,0.92056 1.808231,-2.33495 -0.226145,-6.10845 -3.171246,-5.87992 -1.550448,0.0211 -3.007434,1.11568 -3.459292,2.59898 -4.701352,0 -9.402702,0 -14.104054,0 -0.258707,-1.27682 -0.309266,-2.11823 -0.532659,-0.32786 -1.436394,7.22593 -9.014468,12.43124 -16.274501,11.17924 -7.328434,-0.91683 -13.068091,-8.13653 -12.311164,-15.48257 0.464997,-7.3576 7.032469,-13.43953 14.405011,-13.33826 z m 52.620561,9.99112 c -0.96292,0.0502 -2.60046,0.17595 -2.09755,1.57043 0.0567,2.29818 -0.11186,4.73381 0.0816,6.94851 2.876,1.60884 6.79391,-0.92082 6.51013,-4.20444 -0.0576,-2.3593 -2.13312,-4.35301 -4.49417,-4.3145 z m -52.58387,5.3e-4 c -3.299763,-0.14891 -5.665574,3.88662 -3.923721,6.69319 1.479497,2.95488 6.158026,3.05141 7.757886,0.15973 1.863071,-2.9074 -0.372921,-6.91859 -3.834165,-6.85292 z}
-    \pgfusepath{fill}
-\end{tikzpicture}
+\providecommand{\osdalogo}[1]{\scalebox{1}[-1]{\resizebox*{#1}{!}{%
+\begin{tikzpicture}%
+    \pgfpathsvg{m 41.493525,114.88969 c -4.235403,-0.0951 -5.244524,4.38987 -4.853967,7.74446 0.06465,11.92294 -0.129872,23.85884 0.09828,35.77361 0.660896,3.83742 4.80625,4.07909 7.908947,3.87335 36.559883,0 73.119765,0 109.679645,0 4.2354,0.0951 5.24452,-4.38987 4.85397,-7.74445 -0.0647,-11.92294 0.12987,-23.85884 -0.0983,-35.77361 -0.6609,-3.83742 -4.80625,-4.07909 -7.90895,-3.87336 -36.55988,0 -73.119759,0 -109.679642,0 z m 15.406294,9.3338 c 7.083699,-0.16814 13.650363,5.59034 14.408423,12.6354 0.773555,-7.32725 7.848415,-13.19963 15.192447,-12.61203 5.305345,0.24729 10.291595,3.68656 12.407418,8.55802 -4.449622,-0.0531 -9.052306,0.10604 -13.406456,-0.0794 -0.839139,-2.90692 -5.235964,-3.40946 -6.707523,-0.76424 -1.678739,2.40924 0.506129,6.05789 3.422128,5.71655 1.497283,-0.0812 2.873132,-1.15803 3.311785,-2.59192 4.718573,0 9.43715,0 14.155724,0 0.08339,-2.35529 -0.165262,-4.8569 0.121518,-7.12255 5.339507,-5.05446 14.506947,-4.9329 19.710957,0.26069 2.32206,2.20209 3.8742,5.19535 4.33608,8.36202 0.90939,-7.27195 8.02238,-12.99336 15.31906,-12.32891 7.37799,0.33186 13.674,7.07245 13.50245,14.45591 0.0496,5.18443 -2.94531,10.24647 -7.51324,12.69897 -1.2907,-3.10635 -2.86729,-6.27677 -3.98135,-9.34353 2.57226,-2.09161 1.63297,-6.69649 -1.5515,-7.61542 -3.0763,-1.19911 -6.61783,1.86093 -5.86635,5.08096 0.22078,1.22057 0.97501,2.33122 2.02814,2.98654 -1.33651,3.06304 -2.67302,6.12607 -4.00953,9.18911 -4.21173,-2.03739 -7.27498,-6.23733 -7.9282,-10.87014 -0.9141,7.33051 -8.13486,13.07383 -15.48271,12.31672 -3.21287,-0.24801 -6.32487,-1.6114 -8.68532,-3.8051 0,-2.30873 0,-4.61746 0,-6.92619 -1.727782,7.19313 -9.563391,12.09549 -16.787442,10.50764 -4.612862,-0.86727 -8.678534,-4.13841 -10.513216,-8.45867 4.434157,0.0533 9.021826,-0.10629 13.360463,0.0794 0.820198,2.82501 5.042639,3.41435 6.604149,0.92056 1.808231,-2.33495 -0.226145,-6.10845 -3.171246,-5.87992 -1.550448,0.0211 -3.007434,1.11568 -3.459292,2.59898 -4.701352,0 -9.402702,0 -14.104054,0 -0.258707,-1.27682 -0.309266,-2.11823 -0.532659,-0.32786 -1.436394,7.22593 -9.014468,12.43124 -16.274501,11.17924 -7.328434,-0.91683 -13.068091,-8.13653 -12.311164,-15.48257 0.464997,-7.3576 7.032469,-13.43953 14.405011,-13.33826 z m 52.620561,9.99112 c -0.96292,0.0502 -2.60046,0.17595 -2.09755,1.57043 0.0567,2.29818 -0.11186,4.73381 0.0816,6.94851 2.876,1.60884 6.79391,-0.92082 6.51013,-4.20444 -0.0576,-2.3593 -2.13312,-4.35301 -4.49417,-4.3145 z m -52.58387,5.3e-4 c -3.299763,-0.14891 -5.665574,3.88662 -3.923721,6.69319 1.479497,2.95488 6.158026,3.05141 7.757886,0.15973 1.863071,-2.9074 -0.372921,-6.91859 -3.834165,-6.85292 z}%
+    \pgfusepath{fill}%
+\end{tikzpicture}%
 }}}
 %
 % \copyright
@@ -106,24 +140,98 @@
 %
 %     \copyright{https://osda.ws}
 %
-\providecommand{\osdacopyright}[1]{
+%\providecommand{\osdacopyright}[1]{
+%\blfootnote{\WrapLR%
+%    {\href{#1}{\osdalogo{1.5cm}}}
+%    {\href{#1}{\qrcode[height=1.5cm]{#1}}}
+%    {\noindent%
+%        The copyright is retained by the authors. This work is licensed under the terms
+%        of the Creative Commons Attribution 4.0 International license (CC BY 4.0)
+%        and was presented at the \emph{3rd Workshop on Open-Source Design
+%        Automation (OSDA) 2023}, co-hosted with \emph{Design, Automation, and Test in
+%        Europe Conference (DATE) 2023} in Antwerp, Belgium on April 17, 2023.
+%        For further information and material, please visit the paper's web page on the
+%        workshop website at
+%        \href{#1}{\textbf{#1}} (just scan the QR code above).
+%        %
+%        \emph{Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)},
+%        Pages 1--6, 2023.
+%    }%
+%    \vspace{-1.5\baselineskip}
+%}}
+\providecommand{\osdacopyright}{
 \blfootnote{\WrapLR%
-    {\href{#1}{\osdalogo{1.5cm}}}
-    {\href{#1}{\qrcode[height=1.5cm]{#1}}}
+    {\href{\osda@paper@url}{\osdalogo{1.5cm}}}
+    {\href{\osda@paper@url}{\qrcode[height=1.5cm]{\osda@paper@url}}}
     {\noindent%
-        The copyright is retained by the authors. This work is licensed under the terms
-        of the Creative Commons Attribution 4.0 International license (CC BY 4.0)
-        and was presented at the \emph{3rd Workshop on Open-Source Design
-        Automation (OSDA) 2023}, co-hosted with \emph{Design, Automation, and Test in
-        Europe Conference (DATE) 2023} in Antwerp, Belgium on April 17, 2023.
-        For further information and material, please visit the paper's web page on the
-        workshop website at
-        \href{#1}{\textbf{#1}} (just scan the QR code above).
+        The copyright is retained by the authors.
+        This work is licensed under the terms of the \osda@license@long\relax (\osda@license@short)
+        and was presented at the \emph{\osda@workshop@number
+        \osda@workshop@longname (\osda@workshop@acronym) \osda@workshop@year},
+        \ifthenelse{\isundefined{\osda@hostconference@longname}}{
+        }{
+            co-hosted with \emph{\osda@hostconference@longname} 
+            \ifthenelse{\isundefined{\osda@hostconference@acronym}}{
+            }{
+                \emph{(\osda@hostconference@acronym)}
+            }
+            \ifthenelse{\isundefined{\osda@hostconference@year}}{
+            }{
+                \emph{\osda@hostconference@year}
+            }
+        }
+        in \osda@location@city, \osda@location@country on
+        \osda@date@month \osda@date@day, \osda@date@year.  For further
+        information and material, please visit the paper's web page on the
+        workshop website at \href{\osda@paper@url}{\textbf{\osda@paper@url}}
+        (just scan the QR code above).
         %
-        \emph{Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)},
-        Pages 1--6, 2023.
+        \emph{\osda@proceedings@title},
+        Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@proceedings@year.
     }%
     \vspace{-1.5\baselineskip}
 }}
 %
 %--- End of OSDA Proceedings packages ---%
+
+%\osda@paper@url = https://osda.ws
+%\osda@license@long = Creative Commons Attribution 4.0 International license
+%\osda@license@short = CC BY 4.0
+%\osda@proceedings@title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)
+%\osda@proceedings@startpage = 1
+%\osda@proceedings@endpage = 6
+%\osda@proceedings@year = 2023
+%\osda@workshop@number = 3rd
+%\osda@workshop@longname = Workshop on Open-Source Design Automation
+%\osda@workshop@acronym = OSDA
+%\osda@workshop@year = 2023
+%\osda@location@city = Antwerp
+%\osda@location@country = Belgium
+%\osda@date@month = April
+%\osda@date@day = 14
+%\osda@date@year = 2023
+%\osda@hostconference@longname = Design, Automation, and Test in Europe Conference
+%\osda@hostconference@acronym = DATE
+%\osda@hostconference@year = 2023 
+
+%\pgfkeys {
+%    paper/url,
+%    license/long={Creative Commons Attribution 4.0 International license},
+%    license/short={},
+%    proceedings/title,
+%    proceedings/startpage,
+%    proceedings/endpage,
+%    proceedings/year,
+%    workshop/number,
+%    workshop/longname,
+%    workshop/acronym,
+%    workshop/year,
+%    location/city,
+%    location/country,
+%    date/month,
+%    date/day,
+%    date/year,
+%    hostconference/longname,
+%    hostconference/acronym,
+%    hostconference/year,
+%}
