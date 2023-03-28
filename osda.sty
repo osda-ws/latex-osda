@@ -13,11 +13,6 @@
 }
 \RequirePackage{tikz}
 \RequirePackage{pgfopts}
-%\pgfkeys{
-%    /osda/.cd,
-%    title/.store in=\osda@title,
-%    license/long/.store in=\osda@license@long,
-%}
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
@@ -207,70 +202,6 @@
 %
 %     \copyright{https://osda.ws}
 %
-%\providecommand{\osdacopyright}[1]{
-%\blfootnote{\WrapLR%
-%    {\href{#1}{\osdalogo{1.5cm}}}
-%    {\href{#1}{\qrcode[height=1.5cm]{#1}}}
-%    {\noindent%
-%        The copyright is retained by the authors. This work is licensed under the terms
-%        of the Creative Commons Attribution 4.0 International license (CC BY 4.0)
-%        and was presented at the \emph{3rd Workshop on Open-Source Design
-%        Automation (OSDA) 2023}, co-hosted with \emph{Design, Automation, and Test in
-%        Europe Conference (DATE) 2023} in Antwerp, Belgium on April 17, 2023.
-%        For further information and material, please visit the paper's web page on the
-%        workshop website at
-%        \href{#1}{\textbf{#1}} (just scan the QR code above).
-%        %
-%        \emph{Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA)},
-%        Pages 1--6, 2023.
-%    }%
-%    \vspace{-1.5\baselineskip}
-%}}
-%\providecommand{\osdacopyright}{
-%\blfootnote{\WrapLR%
-%    {\href{\osda@paper@url{}}{\osdalogo{1.5cm}}}
-%    {\href{\osda@paper@url{}}{\qrcode[height=1.5cm]{\osda@paper@url}}}
-%    {\noindent%
-%        The copyright is retained by the authors.
-%        This work is licensed under the terms of the
-%        \osda@license@long{}
-%        \ifthenelse{\isundefined{\osda@license@short} \or \equal{\osda@license@short}{}}{%
-%        }{ %
-%            (\osda@license@short)
-%        }%
-%        \ifthenelse{\isundefined{\osda@license@version} \or \equal{\osda@license@version}{}}{%
-%        }{, %
-%            version \osda@license@version
-%        }%
-%        \ifthenelse{\isundefined{\osda@license@url} \or \equal{\osda@license@url}{}}{%
-%        }{ %
-%            (\href{\osda@license@url{}}{\osda@license@url})
-%        }%
-%        and was presented at the \emph{\osda@workshop@counter{}
-%        \osda@workshop@longname{} (\osda@workshop@acronym) \osda@workshop@year{}},
-%        \ifthenelse{\isundefined{\osda@hostconference@longname}}{%
-%        }{%
-%            co-hosted with \emph{\osda@hostconference@longname} %
-%            \ifthenelse{\isundefined{\osda@hostconference@acronym}}{%
-%            }{%
-%                \emph{(\osda@hostconference@acronym)}
-%            }%
-%            \ifthenelse{\isundefined{\osda@hostconference@year}}{%
-%            }{%
-%                \emph{\osda@hostconference@year}
-%            }%
-%        }%
-%        in \osda@location@city{}, \osda@location@country{} on
-%        \osda@date@month{} \osda@date@day{}, \osda@date@year{}.  For further
-%        information and material, please visit the paper's web page on the
-%        workshop website at \href{\osda@paper@url}{\textbf{\osda@paper@url}}
-%        (just scan the QR code above).
-%        %
-%        \emph{\osda@proceedings@title},
-%        Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@proceedings@year.
-%    }%
-%    \vspace{-1.5\baselineskip}
-%}}
 \providecommand{\osdacopyright}{
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.5cm}}}
@@ -314,8 +245,6 @@
             see \href{\osda@license@url{}}{\osda@license@url}%
         }%
         %
-%        .\linebreak
-%        .\newline
         .
         \emph{\osda@proceedings@title},
         Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@proceedings@year.
