@@ -104,7 +104,7 @@
 }
 
 
-\ProcessPgfPackageOptions{/osda}
+\ProcessPgfOptions{/osda}
 
 \newcommand{\osdasetup}[1]{\pgfkeys{/osda/.cd,#1}}
 
@@ -203,7 +203,8 @@
 %
 %     \copyright{https://osda.ws}
 %
-\providecommand{\osdacopyright}{
+\providecommand{\osdacopyright}[1][]{
+\osdasetup{#1}
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.5cm}}}
     {\href{\osda@paper@url{}}{\qrcode[height=1.5cm]{\osda@paper@url}}}
