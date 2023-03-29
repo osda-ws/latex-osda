@@ -23,11 +23,9 @@
     proceedings/title/.store in = \osda@proceedings@title,
     proceedings/startpage/.store in = \osda@proceedings@startpage,
     proceedings/endpage/.store in = \osda@proceedings@endpage,
-    proceedings/year/.store in = \osda@proceedings@year,
     workshop/counter/.store in = \osda@workshop@counter,
     workshop/longname/.store in = \osda@workshop@longname,
     workshop/acronym/.store in = \osda@workshop@acronym,
-    workshop/year/.store in = \osda@workshop@year,
     location/city/.store in = \osda@location@city,
     location/country/.store in = \osda@location@country,
     date/month/.store in = \osda@date@month,
@@ -35,7 +33,6 @@
     date/year/.store in = \osda@date@year,
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
-    hostconference/year/.store in = \osda@hostconference@year,
     %
     % Default values for specific editions of OSDA
     %
@@ -48,11 +45,9 @@
         proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
         proceedings/startpage = 1,
         proceedings/endpage = 6,
-        proceedings/year = 2023,
         workshop/counter = 3rd,
         workshop/longname = Workshop on Open-Source Design Automation,
         workshop/acronym = OSDA,
-        workshop/year = 2023,
         location/city = Antwerp,
         location/country = Belgium,
         date/month = April,
@@ -60,7 +55,6 @@
         date/year = 2023,
         hostconference/longname = {Design, Automation, and Test in Europe Conference},
         hostconference/acronym = DATE,
-        hostconference/year = 2023,
     },
     %
     % Licenses
@@ -212,7 +206,7 @@
     {\href{\osda@paper@url{}}{\qrcode[height=3.8\baselineskip]{\osda@paper@url}}}
     {\noindent%
         This work was presented at the \emph{\osda@workshop@counter{}
-        \osda@workshop@longname{} (\osda@workshop@acronym) \osda@workshop@year{}},
+        \osda@workshop@longname{} (\osda@workshop@acronym) \osda@date@year{}},
         \ifthenelse{\isundefined{\osda@hostconference@longname}}{%
         }{%
             co-hosted with \emph{\osda@hostconference@longname} %
@@ -220,9 +214,9 @@
             }{%
                 \emph{(\osda@hostconference@acronym)}
             }%
-            \ifthenelse{\isundefined{\osda@hostconference@year}}{%
+            \ifthenelse{\isundefined{\osda@date@year}}{%
             }{%
-                \emph{\osda@hostconference@year}
+                \emph{\osda@date@year}
             }%
         }%
         in \osda@location@city{}, \osda@location@country{}, on
@@ -251,7 +245,7 @@
         %
         .
         \emph{\osda@proceedings@title},
-        Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@proceedings@year.
+        Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@date@year.
     }%
     \vspace{-1.5\baselineskip}
 }}
