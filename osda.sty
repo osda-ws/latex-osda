@@ -129,8 +129,10 @@
   \sbox1{\raisebox{-\height}{#2}}% measure width and height (depth)
   \sbox2{\raisebox{\depth}{\makebox[\columnwidth]{\usebox0\hfill\usebox1}}}% total height
   \par\noindent\usebox2\vspace{\dimexpr \ht\strutbox-\ht2-\baselineskip-\parskip}\par% overlay pictures
-  \dimen0=\dimexpr \wd0+.5\columnsep\relax% indent
-  \dimen1=\dimexpr \columnwidth-\wd0-\wd1-\columnsep\relax% width
+  \newlength{\osda@margin}
+  \setlength{\osda@margin}{2ex}
+  \dimen0=\dimexpr \wd0+.5\osda@margin\relax% indent
+  \dimen1=\dimexpr \columnwidth-\wd0-\wd1-\osda@margin\relax% width
   \edef\shape{\the\dimen0 \the\dimen1}% set up \parshape arguments in loop
   \dimen2=\ht\strutbox
   \dimen4=\dimexpr \ht2-\baselineskip\relax
@@ -139,10 +141,10 @@
     \advance\dimen2 by \baselineskip
     \ifdim\dimen2>\dp0\relax% end of left image
       \dimen0=0pt
-      \dimen1=\dimexpr \columnwidth-\wd1-.5\columnsep\relax
+      \dimen1=\dimexpr \columnwidth-\wd1-.5\osda@margin\relax
     \fi
     \ifdim\dimen2>\dp1\relax% end of right image
-      \dimen1=\dimexpr \columnwidth-\wd0-.5\columnsep\relax
+      \dimen1=\dimexpr \columnwidth-\wd0-.5\osda@margin\relax
     \fi
     \advance\count1 by 1
     \edef\shape{\shape\space\the\dimen0 \the\dimen1}%
