@@ -6,6 +6,7 @@
 \RequirePackage{flushend}
 \RequirePackage{ifthen}
 \RequirePackage{qrcode}
+\RequirePackage{xcolor}
 \RequirePackage{hyperref}
 \hypersetup{
 	colorlinks = true,
@@ -33,15 +34,25 @@
     date/year/.store in = \osda@date@year,
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
+}
+
+% Specify default values
+\pgfkeys {
+    /osda/.cd,
+    license/version = ,
+    license/url = ,
+    license/long = \textbf{\textcolor{red}{{Please specify a license}}},
+    license/short = ,
+}
+
+% Define some useful styles
+\pgfkeys {
+    /osda/.cd,
     %
     % Default values for specific editions of OSDA
     %
     2023/.style={
         paper/url = https://osda.ws,
-%        license/version = 4.0,
-%        license/url = ,
-%        license/long = Creative Commons Attribution \osda@license@version International license,
-%        license/short = CC BY \osda@license@version,
         proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
         proceedings/startpage = 1,
         proceedings/endpage = 6,
@@ -203,7 +214,7 @@
 \osdasetup{#1}
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
-    {\href{\osda@paper@url{}}{\qrcode[height=3.8\baselineskip]{\osda@paper@url}}}
+    {\href{\osda@paper@url{}}{\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}}
     {\noindent%
         This work was presented at the \emph{\osda@workshop@counter{}
         \osda@workshop@longname{} (\osda@workshop@acronym) \osda@date@year{}},
