@@ -14,6 +14,8 @@
 }
 \RequirePackage{tikz}
 \RequirePackage{pgfopts}
+
+% Define keys
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
@@ -213,7 +215,7 @@
 \osdaset{#1}
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
-    {\href{\osda@paper@url{}}{\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}}
+    {\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}
     {\noindent%
         This work was presented at the \emph{\osda@workshop@counter{}
         \osda@workshop@longname{} (\osda@workshop@acronym) \osda@date@year{}},
