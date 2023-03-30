@@ -14,10 +14,34 @@
 \RequirePackage{tikz}
 \RequirePackage{pgfopts}
 
+%
+% \osdaset
+%
+% Command to set options for this package.
+%
+% Usage:
+%
+%     \osdaset{key1=value1, key2=value2, ...}
+%
+% Example:
+%
+%     \osdaset{
+%         paper/url=https://osda.ws,
+%         license/long = XYZ license,
+%         license/short = XYZ,
+%         license/version = 1.0,
+%         license/url = https://xyz.org/license
+%     }
+%
+\newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
+
 % Define keys
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
+    url/.forward to = /osda/paper/url,
+    paper/doi/.store in = \osda@paper@doi,
+    doi/.forward to = /osda/paper/doi,
     license/version/.store in = \osda@license@version,
     license/url/.store in = \osda@license@url,
     license/long/.store in = \osda@license@long,
@@ -37,6 +61,12 @@
     hostconference/acronym/.store in = \osda@hostconference@acronym,
 }
 
+% Convenience key to set the paper's page numbers in the proceedings
+\pgfkeys{
+    /osda/.cd,
+    pages/.code 2 args={\osdaset{proceedings/startpage=#1,proceedings/endpage=#2}},
+}
+
 % Specify default values
 \pgfkeys {
     /osda/.cd,
@@ -44,6 +74,10 @@
     license/url = ,
     license/long = \textbf{\textcolor{red}{{Please specify a license}}},
     license/short = ,
+    proceedings/startpage = ,
+    proceedings/endpage = ,
+    paper/url = https://please.specify.the/url/here,
+    paper/doi = ,
 }
 
 % Define some useful styles
@@ -53,10 +87,7 @@
     % Default values for specific editions of OSDA
     %
     2023/.style={
-        paper/url = https://osda.ws,
         proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
-        proceedings/startpage = 1,
-        proceedings/endpage = 6,
         workshop/counter = 3rd,
         workshop/longname = Workshop on Open-Source Design Automation,
         workshop/acronym = OSDA,
@@ -116,27 +147,6 @@
 % the text of the copyright notice
 %
 \newlength{\osda@margin}
-
-%
-% \osdaset
-%
-% Command to set options for this package.
-%
-% Usage:
-%
-%     \osdaset{key1=value1, key2=value2, ...}
-%
-% Example:
-%
-%     \osdaset{
-%         paper/url=https://osda.ws,
-%         license/long = XYZ license,
-%         license/short = XYZ,
-%         license/version = 1.0,
-%         license/url = https://xyz.org/license
-%     }
-%
-\newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
 
 %
 % WrapLR
@@ -281,8 +291,11 @@
         .
         \emph{\osda@proceedings@title},
         Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@date@year.
+        \ifthenelse{\isundefined{\osda@paper@doi} \or \equal{\osda@paper@doi}{}}{%
+        }{%
+            DOI: \href{https://doi.org/\osda@paper@doi}{\osda@paper@doi}%
+        }%
     }%
-    \vspace{-1.5\baselineskip}
 }
 %
 % \osdafootnote
@@ -299,7 +312,8 @@
 %
 \newcommand{\osdafootnote}[1][]{
     \osdaset{#1}
-    \blfootnote{\osdanotice}%
+    \blfootnote{\osdanotice\vspace{-1.5\baselineskip}}%
+    
 }
 %
 % \maketitle
@@ -309,7 +323,3 @@
 %
 \let\maketitle@orig\maketitle
 \renewcommand{\maketitle}{\maketitle@orig\osdafootnote}
-%
-% 
-%
-%
