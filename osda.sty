@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{osda}[2023/03/28 OSDA 2023 Copyright Notice]
+\ProvidesPackage{osda}[2023/03/30 OSDA 2023 Copyright Notice]
 
 \RequirePackage[hang,flushmargin]{footmisc}
 \RequirePackage{flushend}
@@ -112,6 +112,12 @@
 \ProcessPgfOptions{/osda}
 
 %
+% The margin defines the space between the logo's right/QR code's left side and
+% the text of the copyright notice
+%
+\newlength{\osda@margin}
+
+%
 % \osdaset
 %
 % Command to set options for this package.
@@ -153,7 +159,6 @@
   \sbox1{\raisebox{-\height}{#2}}% measure width and height (depth)
   \sbox2{\raisebox{\depth}{\makebox[\columnwidth]{\usebox0\hfill\usebox1}}}% total height
   \par\noindent\usebox2\vspace{\dimexpr \ht\strutbox-\ht2-\baselineskip-\parskip}\par% overlay pictures
-  \newlength{\osda@margin}
   \setlength{\osda@margin}{2ex}
   \dimen0=\dimexpr \wd0+.5\osda@margin\relax% indent
   \dimen1=\dimexpr \columnwidth-\wd0-\wd1-\osda@margin\relax% width
@@ -231,7 +236,7 @@
 %
 \newcommand{\osdanotice}[1][]{
 \osdaset{#1}
-\blfootnote{\WrapLR%
+\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
     {\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}
     {\noindent%
@@ -278,7 +283,24 @@
         Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@date@year.
     }%
     \vspace{-1.5\baselineskip}
-}}
+}
+%
+% \osdafootnote
+%
+% This command sets the OSDA copyright notice in an un-numbered footnote.
+%
+% Usage:
+%
+%     \osdafootnote{url}
+%
+% Example:
+%
+%     \osdafootnote{https://osda.ws}
+%
+\newcommand{\osdafootnote}[1][]{
+    \osdaset{#1}
+    \blfootnote{\osdanotice}%
+}
 %
 % \maketitle
 %
@@ -286,6 +308,8 @@
 % once the paper title is generated
 %
 \let\maketitle@orig\maketitle
-\renewcommand{\maketitle}{\maketitle@orig\osdanotice}
+\renewcommand{\maketitle}{\maketitle@orig\osdafootnote}
 %
-%--- End of OSDA Proceedings packages ---%
+% 
+%
+%
