@@ -108,10 +108,9 @@
     },
 }
 
-
 \ProcessPgfOptions{/osda}
 
-\newcommand{\osdasetup}[1]{\pgfkeys{/osda/.cd,#1}}
+\newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
 
 %
 % WrapLR
@@ -140,7 +139,7 @@
   \dimen1=\dimexpr \columnwidth-\wd0-\wd1-\osda@margin\relax% width
   \edef\shape{\the\dimen0 \the\dimen1}% set up \parshape arguments in loop
   \dimen2=\ht\strutbox
-  \dimen4=\dimexpr \ht2-\baselineskip\relax
+  \dimen4=\dimexpr \ht2-.5\baselineskip\relax
   \count1=2
   \loop\ifdim\dimen2<\dimen4
     \advance\dimen2 by \baselineskip
@@ -211,7 +210,7 @@
 %     \copyright{https://osda.ws}
 %
 \providecommand{\osdacopyright}[1][]{
-\osdasetup{#1}
+\osdaset{#1}
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
     {\href{\osda@paper@url{}}{\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}}

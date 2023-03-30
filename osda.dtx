@@ -1,0 +1,645 @@
+% \iffalse meta-comment
+%
+% osda.ins
+% Copyright 2014 by Anders O.F. Hendrickson (anders.hendrickson@snc.edu)
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Anders O.F. Hendrickson.
+%
+% This work consists of the files osda.dtx and osda.ins
+% and the derived file osda.sty.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{osda.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<package>\ProvidesPackage{osda}
+%<*package>
+    [2023/03/30 v1.0.0 OSDA copyright notice generator]
+%</package>
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{hyperref}
+\usepackage[2023,cc-by]{osda}
+\EnableCrossrefs         
+\CodelineIndex
+\RecordChanges
+\OnlyDescription
+\begin{document}
+  \DocInput{osda.dtx}
+  \PrintChanges
+  %\PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.0.0}{2023/03/30}{Initial version}
+%
+% \GetFileInfo{osda.sty}
+%
+% \DoNotIndex{\newcommand,\newenvironment,\providecommand,\def}
+% 
+% \def\F{F}
+%
+% \title{The \textsf{osda} package: \\
+%        OSDA Copyright Notice Generator\thanks{This document
+%        corresponds to \textsf{osda}~\fileversion, dated \filedate.}
+% }
+% \author{Christian Krieg\\ Workshop on Open-Source Design Automation (OSDA) \\
+%     \texttt{christian@osda.ws}
+% }
+% \date{March 30, 2023}
+%
+% \maketitle
+%
+%
+% \section{Introduction}
+%
+% The proliferation of smartphones and tablets has led to the widespread
+% use of Quick Response (QR) codes, which encode numeric, alphanumeric, kanji,
+% or binary information into a square matrix of black and white pixels called modules.
+% Although QR codes can encode any information up to almost three kilobytes,
+% their most common use is as physical hyperlinks: a mobile device scans
+% a printed QR code, decodes a URL, and automatically points a browser to that location.
+% 
+% It is natural to want to include QR codes in certain \LaTeX\ documents;
+% for example, one may want to direct the reader of a printed page to 
+% related interactive content online.
+% Before now, the only \LaTeX\ package for producing QR codes was the
+% immensely flexible {\tt pst-barcode}.  As that package relies on 
+% {\tt pstricks}, however, it can be difficult to integrate with 
+% a pdf\LaTeX\ workflow,\footnote{%
+% The {\tt auto-pst-pdf} or {\tt pstool} packages can make this possible
+%    by automatically running
+%    \LaTeX${}\rightarrow \tt dvips \rightarrow ps2pdf \rightarrow pdfcrop$ 
+%    for each barcode generated in {\tt pstricks}, 
+%    so long as the user is able and willing to enable {\tt\string\write18}
+%    in {\tt pdflatex} and install Perl.
+%    Judging by questions on {\tt tex.stackexchange.com} and {\tt latexcommunity.org},
+%    this is a significant hurdle for some users.
+%    Moreover, according to {\tt http://tex.stackexchange.com/questions/72876/}
+%    this workflow may have trouble if the QR code is in a header.}
+% and a pdf\LaTeX\ user may not want the extra overhead just to produce a QR code.
+% If one wants to avoid {\tt pstricks}, a Lua\TeX\ solution was proposed at
+% {\tt http://tex.stackexchange.com/questions/89649/},
+% and a plain\TeX\ solution can be found at 
+% {\catcode`\~=12\tt http://ktiml.mff.cuni.cz/~maj/QRcode.TeX},
+% but until now no \LaTeX\ package had been available that did not call on outside machinery.
+% 
+% The {\tt qrcode} package, in contrast, implements the QR code algorithm using 
+% only \TeX\ and \LaTeX\ commands, so it should work with any \LaTeX\ workflow.
+% Because it draws the squares constituting a QR code using the \TeX\ primitive 
+% |\rule|, there is no need to load any graphics package whatsoever.
+% For a user who merely wants a QR code, this is the simplest solution.
+% 
+% \section{Usage}\label{sect:usage}
+%
+%
+% \DescribeMacro{\qrcode}
+% The package provides just one command, |\qrcode|, with the following syntax:
+% \begin{center}
+% |\qrcode|\oarg{options}\marg{text to be encoded}
+% \end{center}
+% For example, |\qrcode[hyperlink,height=0.5in]{http://www.ctan.org}| produces
+% \begin{center}
+%   \qrcode[hyperlink,height=0.5in]{http://www.ctan.org}
+% \end{center}
+% Although the most common use of QR codes is as URLs,
+% the \meta{text to be encoded} can be almost any typed text.
+% The few exceptions to this are described in section \ref{sect:specialcharacters}.
+%
+% \subsection{Package Options}
+% 
+% \DescribeMacro{nolinks}
+% When the |hyperref| package is loaded,
+% by default |\qrcode| assumes its argument is a URL
+% and makes the QR code produced a hyperlink to that URL.
+% This default behavior may be changed by invoking the |nolinks| package option.
+% For example, most of the QR codes in this document are not in fact URLs, 
+% so this documentation was typeset with |\usepackage[nolinks]{qrcode}|.
+% The |hyperlinks| option is an antonym to |nolinks| and is the default.
+% These options have no effect if hyperref is not loaded.
+% 
+% \DescribeMacro{draft}
+% \DescribeMacro{final}
+% Creating QR codes for short URLs takes relatively little time.\footnote{On 
+%           this author's laptop, even a 60-character URL (version 4, level M) adds 
+%           only about 0.7 seconds of compilation time.}
+% Because \TeX\ was designed for typesetting, not for extensive computations,
+% however, if many small QR codes or a single large one are required,
+% the time spent can be quite noticeable.  To save compilation
+% time while working on a large document, calling the |draft| option 
+% causes the package not to compute QR codes, but merely to insert placeholder
+% symbols with no data.  The |final| option is an antonym to |draft|
+% and is the default.
+% \begin{quote}
+%   \begin{tabular}{p{1.25in}p{3.5in}}
+%     {\qrcode[draft,version=15]{http://www.tug.org}}
+%     &
+%     \begin{minipage}{3in}
+%       \tt 
+%       |\documentclass{article}| \\
+%       |\usepackage[draft]{qrcode}| \\
+%       |\begin{document}| \\
+%       |  \qrcode[version=15]{Dummy code}| \\
+%       |\end{document}|
+%     \end{minipage}
+%   \end{tabular}
+% \end{quote}
+% The placeholder symbol produced in {\tt draft} mode will have the same size
+% and dimensions as the actual QR code.
+%
+% To conserve processing time, when |\qrcode| computes the binary matrix representing
+% a QR code, it saves that binary data as a string of 1's and 0's
+% both in a macro and in the {\tt .aux} file.
+% Thus if the same QR code is desired later in the document, or upon the next
+% run of \LaTeX, the QR symbol can be redrawn immediately from the saved binary data.
+%
+% \DescribeMacro{forget}
+% There may be times when this is not desired; testing of this package is the chief
+% example, but one might also have reason to believe that the {\tt .aux} file 
+% contains bad data.
+% Invoking the |forget| package option causes |\qrcode| to calculate
+% every QR code anew, even if a QR code for that \meta{text to be encoded}, level,
+% and version
+% was read from the {\tt .aux} file or was already computed earlier in the document.
+%
+% \subsection{Options}
+% \DescribeMacro{\qrset}
+% Several options affect the appearance and encoding of the QR code;
+% {\tt qrcode} uses the {\tt xkeyval} package to handle the setting
+% and processing of key-value pairs.
+% The following options may either be given as optional arguments
+% to |\qrcode| or changed within a \TeX-grouping using the
+% macro |\qrset|.
+% \begin{quote}
+%   \begin{tabular}{p{6cm}p{2in}}
+%     \qrcode{ABCD}
+%     {\qrset{height=1cm}%
+%      \qrcode{EFGH}}
+%     \qrcode{IJKL}
+%     &
+%     \begin{minipage}{3in}
+%       |\qrcode{ABCD}| \\
+%       |{\qrset{height=1cm}%| \\
+%       | \qrcode{EFGH}}| \\
+%       |\qrcode{IJKL}|
+%     \end{minipage}
+%   \end{tabular}
+% \end{quote}
+%
+% \DescribeMacro{height}
+% The |height=|\meta{dimen} key sets the printed height (and width) of the 
+% QR code.  The default value is {\tt 2cm}.
+% \begin{quote}
+%   \begin{tabular}{p{2in}p{2in}}
+%   \qrcode{ABCD} \qrcode[height=1cm]{ABCD}
+%   & |\qrcode{ABCD}| |\qrcode[height=1cm]{ABCD}|
+% \end{tabular}
+% \end{quote}
+% 
+% \DescribeMacro{level}
+% The QR code specification (ISO 18004:2006) includes four 
+% levels of encoding: Low, Medium, Quality, and High, in
+% increasing order of error-correction capabaility.  
+% In general, for a given text a higher error-correction
+% level requires more bits of information in the QR code.
+% The key |level=|\meta{level specification}
+% selects the minimum acceptable level.
+% The \meta{level specification} may be |L|, |M|, |Q|, or |H|;
+% the default is |M|.
+% It may happen that the smallest QR code able to encode
+% the specified text at the desired level
+% is in fact large enough to provide a higher level of 
+% error-correction.  If so, {\tt qrcode} automatically upgrades to the higher
+% error-correction level, and a message is printed in the log file.
+% 
+% \DescribeMacro{version}
+% QR codes range in size from $21\times 21$ modules (``version 1'') 
+% to $177\times 177$ modules (``version 40''), in steps of 4 modules.  
+% The package automatically selects the smallest version large enough to encode
+% the specified text at the desired error-correction level.
+% Nevertheless, there might be occasions when a specific version is required;
+% for example, perhaps a set of QR codes should have the same dimensions for 
+% aesthetic reasons, even though some encode shorter texts than others.
+% For this reason, the key |version=|\meta{version specification} allows the user
+% to specify a minimum version number, from 1 through 40, for the QR code.
+% Setting |version=0| means ``as small as possible''; this is the default.
+% If the desired version is not large enough to encode the text, the version
+% will automatically be increased to accommodate the text, and a message will
+% be placed in the log file.
+% \begin{quote}
+%   \begin{tabular}{p{5.2cm}p{3in}}
+%     \raggedright
+%     \qrcode{ABCD}
+%     \qrcode[version=5]{ABCD} 
+%     \medskip \\
+%     \qrcode[version=10]{ABCD}
+%     \qrcode[version=20]{ABCD}
+%     &
+%     \begin{minipage}{3in}
+%       |\qrcode{ABCD}| \\
+%       |\qrcode[version=5]{ABCD}| \\
+%       |\medskip \\| \\
+%       |\qrcode[version=10]{ABCD}| \\
+%       |\qrcode[version=20]{ABCD}|
+%     \end{minipage}
+%   \end{tabular}
+% \end{quote}
+%
+% 
+% \DescribeMacro{tight}
+% \DescribeMacro{padding}
+% The QR specification states that a QR code should be surrounded by white\-space
+% of a width equal to that of four modules.  In many applications, a document
+% author is likely to provide sufficient spacing anyway (e.g., by placing the 
+% QR code in a {\tt center} environment, header, or |\marginpar|), so by 
+% default the |qrcode| package adds no spacing.  If the option |padding| is 
+% specified, however, the QR code will automatically be surrounded with 4 modules'
+% worth of white\-space. The key |tight| is an antonym of |padding|; the default is |tight|.
+% 
+% \DescribeMacro{link}
+% \DescribeMacro{nolink}
+% \DescribeMacro{\qrcode*}
+% As described above, if the |hyperref| package is loaded,
+% then the QR codes produced in a PDF document can be made 
+% into hyperlinks to their text.  The default behavior 
+% can be controlled with the options |nolinks| and |hyperlinks|,
+% but this default can be overridden for individual QR codes by invoking
+% the options |link| or |nolink|. 
+% Moreover, the starred version of the macro, |\qrcode*|, is a shorthand 
+% equivalent to |\qrcode[nolink]|.
+% \begin{quote}
+%   \begin{tabular}{p{5.2cm}p{3in}}
+%     \raggedright
+%     \qrset{link, height=1.5cm}
+%     \qrcode{http://www.ctan.org}
+%     \qrcode[nolink]{This is not a URL.}
+%     \qrcode*{Neither is this.} 
+%     &
+%     \begin{minipage}{3in}
+%       |\qrset{link, height=1.5cm}| \\
+%       |\qrcode{http://www.ctan.org}| \\
+%       |\qrcode[nolink]{This is not a URL.}| \\
+%       |\qrcode*{Neither is this.}|
+%     \end{minipage}
+%   \end{tabular}
+% \end{quote}
+% 
+% \subsection{Special characters}\label{sect:specialcharacters}
+% Many URLs can be processed by \TeX\ with no hiccups,
+% but not infrequently a URL may contain the symbols |%|, |#|,
+% |~|, |_|, and |&|.  Moreover, QR codes need not just contain
+% URL's, so a user may wish to encode text containing |^|, |$|, or spaces.
+% The |qrcode| package offers two ways of coping with these special characters.
+% 
+% First, the |\qrcode| command itself processes its \meta{text to be encoded} 
+% in a limited verbatim mode.  The following characters will be encoded into
+% the QR code as typed:
+% \begin{center}
+%   |#| |$| |&| |^| |_| |~| |%| {\tt\char32}
+% \end{center}
+% and line breaks as well.\footnote{Technically, when the input character 
+% {\tt\char`\^\char`\^M} (CR, charcode 13) is encountered,
+% the character {\tt\char`\^\char`\^J} (LF, charcode 10) is placed into the QR code.}
+% Conspicuously absent from this list are |\|, |{|, and |}|.
+% This is intentional, so that macros may be used within |\qrcode|
+% to generate the \meta{text to be encoded} automatically.
+% If these characters are desired, they may be obtained by ``escaping'' them
+% with an extra backslash.
+% \begin{quote}
+%   \begin{tabular}{p{2in}p{3in}}
+%   \qrset{height=1.5cm}%
+%   \qrcode{We can include #$&^_~%.}
+%   \def\foo{bar}%
+%   \qrcode{Set the \foo\ high.}
+%   \qrcode{We must escape \\emph\{this\}.}
+%   & \begin{minipage}{3in}
+%     |\qrset{height=1.5cm}%| \\
+%     |\qrcode{We can include #$&^_~%.}| \\
+%     |\def\foo{bar}%| \\
+%     |\qrcode{Set the \foo\ high.}| \\
+%     |\qrcode{We must escape \\emph\{this\}.}|
+%     \end{minipage}
+% \end{tabular}
+% \end{quote}
+% 
+% As with all verbatim modes, however, because \TeX\ irrevocably sets catcodes 
+% when it first encounters characters, this will not work if the |\qrcode| macro
+% is contained in another macro.  If you call |\qrcode| inside an
+% |\fbox| or a |\marginpar|, for example, and if your URL contains one of those
+% special characters, you will either encounter error messages or (worse, because
+% it is undetectable to the naked eye) have the wrong QR code typeset.
+% In this scenario, you can still include any of the characters
+% |#$&^_~%|{\tt\char32}|\{}|
+% by escaping them with an extra backslash;
+% so long as they eventually pass unexpanded to |\qrcode|,
+% they will produce the correct QR code.
+% A line break may be obtained with |\?|.
+% \begin{quote}
+%   \begin{tabular}{p{1.5cm}p{2in}}
+%     \fbox{\qrcode[height=1cm]{\#\$\&\^\_\~\?\%\ \\\{\}}} 
+%     & |\fbox{qrcode[height=1cm]{\#\$\&\^\_\~\?\%\ \\\{\}}}| 
+%   \end{tabular}
+% \end{quote}
+% 
+% \section{Limitations and Cautions}
+%
+% \begin{itemize}
+%   \item The QR specification includes modes for encoding numeric, alphanumeric,
+%         or Kanji data more efficiently.  This package does not (yet) offer
+%         those options.
+%   \item The QR specification offers ways to string lengthy data across multiple
+%         QR codes.  This package does not implement that possibility.
+% \end{itemize}
+% 
+% \StopEventually{}
+% 
+% \section{Implementation}
+% \begin{macrocode}
+\RequirePackage[hang,flushmargin]{footmisc}
+\RequirePackage{flushend}
+\RequirePackage{ifthen}
+\RequirePackage{qrcode}
+\RequirePackage{hyperref}
+\hypersetup{
+	colorlinks = true,
+	allcolors  = black,
+}
+\RequirePackage{tikz}
+\RequirePackage{pgfopts}
+\pgfkeys {
+    /osda/.cd,
+    paper/url/.store in = \osda@paper@url,
+    license/version/.store in = \osda@license@version,
+    license/url/.store in = \osda@license@url,
+    license/long/.store in = \osda@license@long,
+    license/short/.store in = \osda@license@short,
+    proceedings/title/.store in = \osda@proceedings@title,
+    proceedings/startpage/.store in = \osda@proceedings@startpage,
+    proceedings/endpage/.store in = \osda@proceedings@endpage,
+    workshop/counter/.store in = \osda@workshop@counter,
+    workshop/longname/.store in = \osda@workshop@longname,
+    workshop/acronym/.store in = \osda@workshop@acronym,
+    location/city/.store in = \osda@location@city,
+    location/country/.store in = \osda@location@country,
+    date/month/.store in = \osda@date@month,
+    date/day/.store in = \osda@date@day,
+    date/year/.store in = \osda@date@year,
+    hostconference/longname/.store in = \osda@hostconference@longname,
+    hostconference/acronym/.store in = \osda@hostconference@acronym,
+    %
+    % Default values for specific editions of OSDA
+    %
+    2023/.style={
+        paper/url = https://osda.ws,
+%        license/version = 4.0,
+%        license/url = ,
+%        license/long = Creative Commons Attribution \osda@license@version International license,
+%        license/short = CC BY \osda@license@version,
+        proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
+        proceedings/startpage = 1,
+        proceedings/endpage = 6,
+        workshop/counter = 3rd,
+        workshop/longname = Workshop on Open-Source Design Automation,
+        workshop/acronym = OSDA,
+        location/city = Antwerp,
+        location/country = Belgium,
+        date/month = April,
+        date/day = 17,
+        date/year = 2023,
+        hostconference/longname = {Design, Automation, and Test in Europe Conference},
+        hostconference/acronym = DATE,
+    },
+    %
+    % Licenses
+    %
+    cc-by/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by/4.0,
+        license/long = Creative Commons Attribution license,
+        license/short = CC BY,
+    },
+    cc-by-sa/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-sa/4.0,
+        license/long = Creative Commons Attribution-ShareAlike license,
+        license/short = CC BY-SA,
+    },
+    cc-by-nc-sa/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-nc-sa/4.0,
+        license/long = Creative Commons Attribution-Noncommercial-ShareAlike license,
+        license/short = CC BY-NC-SA,
+    },
+    cc-by-nc-nd/.style={
+        license/version = 4.0,
+        license/url = https://creativecommons.org/licenses/by-nc-nd/4.0,
+        license/long = Creative Commons Attribution-Noncommercial-NoDerivatives license,
+        license/short = CC BY-NC-ND,
+    },
+    arXiv/.style={
+        license/version = 1.0,
+        license/url = https://arxiv.org/licenses/nonexclusive-distrib/1.0,
+        license/long = {arXiv.org perpetual, non-exclusive license},
+        license/short =,
+    },
+    cc0/.style={
+        license/version =,
+        license/url = https://creativecommons.org/share-your-work/public-domain/cc0,
+        license/long = Public Domain license,
+        license/short = CC0,
+    },
+}
+
+\ProcessPgfOptions{/osda}
+
+\newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
+
+%
+% WrapLR
+%
+% Command to place two figures wrapped around text; we use it here for the OSDA
+% logo and the QR code that links to the paper in the acknowledgments box in the
+% footnote of the title page
+%
+% Usage:
+%
+%     \WrapLR{\includegraphics[height=1.2in]{example-image-a}}%
+%         {\includegraphics[height=1.2in]{example-image-b}}%
+%         {\noindent Text to wrap around images}
+%
+% Adapted from: https://tex.stackexchange.com/a/455612
+%
+\providecommand*{\WrapLR}[3]% #1=left image, #2=right image, #3=text (1 paragraph)
+{\bgroup
+  \sbox0{\raisebox{-\height}{#1}}% align tops
+  \sbox1{\raisebox{-\height}{#2}}% measure width and height (depth)
+  \sbox2{\raisebox{\depth}{\makebox[\columnwidth]{\usebox0\hfill\usebox1}}}% total height
+  \par\noindent\usebox2\vspace{\dimexpr \ht\strutbox-\ht2-\baselineskip-\parskip}\par% overlay pictures
+  \newlength{\osda@margin}
+  \setlength{\osda@margin}{2ex}
+  \dimen0=\dimexpr \wd0+.5\osda@margin\relax% indent
+  \dimen1=\dimexpr \columnwidth-\wd0-\wd1-\osda@margin\relax% width
+  \edef\shape{\the\dimen0 \the\dimen1}% set up \parshape arguments in loop
+  \dimen2=\ht\strutbox
+  \dimen4=\dimexpr \ht2-.5\baselineskip\relax
+  \count1=2
+  \loop\ifdim\dimen2<\dimen4
+    \advance\dimen2 by \baselineskip
+    \ifdim\dimen2>\dp0\relax% end of left image
+      \dimen0=0pt
+      \dimen1=\dimexpr \columnwidth-\wd1-.5\osda@margin\relax
+    \fi
+    \ifdim\dimen2>\dp1\relax% end of right image
+      \dimen1=\dimexpr \columnwidth-\wd0-.5\osda@margin\relax
+    \fi
+    \advance\count1 by 1
+    \edef\shape{\shape\space\the\dimen0 \the\dimen1}%
+  \repeat
+  \edef\shape{\the\count1 \space\shape\space 0pt \the\columnwidth}%
+  \parshape=\shape
+  #3\par
+\egroup}
+%
+% blfootnote
+%
+% Set footnotes without marks
+%
+% Usage:
+%
+%     \blfootnote{footnotetext}
+%
+% From: https://tex.stackexchange.com/a/30726
+%
+\providecommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+%
+% \osdalogo
+%
+% Draws the OSDA logo at a given height
+%
+% Usage:
+%
+%     \osdalogo{height}
+%
+% Example:
+%
+%     \osdalogo{2\baselineskip}
+%
+\usetikzlibrary{svg.path}
+\providecommand{\osdalogo}[1]{\scalebox{1}[-1]{\resizebox*{!}{#1}{%
+\begin{tikzpicture}%
+    \pgfpathsvg{m 41.493525,114.88969 c -4.235403,-0.0951 -5.244524,4.38987 -4.853967,7.74446 0.06465,11.92294 -0.129872,23.85884 0.09828,35.77361 0.660896,3.83742 4.80625,4.07909 7.908947,3.87335 36.559883,0 73.119765,0 109.679645,0 4.2354,0.0951 5.24452,-4.38987 4.85397,-7.74445 -0.0647,-11.92294 0.12987,-23.85884 -0.0983,-35.77361 -0.6609,-3.83742 -4.80625,-4.07909 -7.90895,-3.87336 -36.55988,0 -73.119759,0 -109.679642,0 z m 15.406294,9.3338 c 7.083699,-0.16814 13.650363,5.59034 14.408423,12.6354 0.773555,-7.32725 7.848415,-13.19963 15.192447,-12.61203 5.305345,0.24729 10.291595,3.68656 12.407418,8.55802 -4.449622,-0.0531 -9.052306,0.10604 -13.406456,-0.0794 -0.839139,-2.90692 -5.235964,-3.40946 -6.707523,-0.76424 -1.678739,2.40924 0.506129,6.05789 3.422128,5.71655 1.497283,-0.0812 2.873132,-1.15803 3.311785,-2.59192 4.718573,0 9.43715,0 14.155724,0 0.08339,-2.35529 -0.165262,-4.8569 0.121518,-7.12255 5.339507,-5.05446 14.506947,-4.9329 19.710957,0.26069 2.32206,2.20209 3.8742,5.19535 4.33608,8.36202 0.90939,-7.27195 8.02238,-12.99336 15.31906,-12.32891 7.37799,0.33186 13.674,7.07245 13.50245,14.45591 0.0496,5.18443 -2.94531,10.24647 -7.51324,12.69897 -1.2907,-3.10635 -2.86729,-6.27677 -3.98135,-9.34353 2.57226,-2.09161 1.63297,-6.69649 -1.5515,-7.61542 -3.0763,-1.19911 -6.61783,1.86093 -5.86635,5.08096 0.22078,1.22057 0.97501,2.33122 2.02814,2.98654 -1.33651,3.06304 -2.67302,6.12607 -4.00953,9.18911 -4.21173,-2.03739 -7.27498,-6.23733 -7.9282,-10.87014 -0.9141,7.33051 -8.13486,13.07383 -15.48271,12.31672 -3.21287,-0.24801 -6.32487,-1.6114 -8.68532,-3.8051 0,-2.30873 0,-4.61746 0,-6.92619 -1.727782,7.19313 -9.563391,12.09549 -16.787442,10.50764 -4.612862,-0.86727 -8.678534,-4.13841 -10.513216,-8.45867 4.434157,0.0533 9.021826,-0.10629 13.360463,0.0794 0.820198,2.82501 5.042639,3.41435 6.604149,0.92056 1.808231,-2.33495 -0.226145,-6.10845 -3.171246,-5.87992 -1.550448,0.0211 -3.007434,1.11568 -3.459292,2.59898 -4.701352,0 -9.402702,0 -14.104054,0 -0.258707,-1.27682 -0.309266,-2.11823 -0.532659,-0.32786 -1.436394,7.22593 -9.014468,12.43124 -16.274501,11.17924 -7.328434,-0.91683 -13.068091,-8.13653 -12.311164,-15.48257 0.464997,-7.3576 7.032469,-13.43953 14.405011,-13.33826 z m 52.620561,9.99112 c -0.96292,0.0502 -2.60046,0.17595 -2.09755,1.57043 0.0567,2.29818 -0.11186,4.73381 0.0816,6.94851 2.876,1.60884 6.79391,-0.92082 6.51013,-4.20444 -0.0576,-2.3593 -2.13312,-4.35301 -4.49417,-4.3145 z m -52.58387,5.3e-4 c -3.299763,-0.14891 -5.665574,3.88662 -3.923721,6.69319 1.479497,2.95488 6.158026,3.05141 7.757886,0.15973 1.863071,-2.9074 -0.372921,-6.91859 -3.834165,-6.85292 z}%
+    \pgfusepath{fill}%
+    \pgfusepath{stroke}%
+\end{tikzpicture}%
+}}}
+%
+% \copyright
+%
+% This command sets the OSDA copyright notice, taking a URL as argument to set
+% links to the paper's web page, and to create a QR code from.
+%
+% Usage:
+%
+%     \copyright{url}
+%
+% Example:
+%
+%     \copyright{https://osda.ws}
+%
+\providecommand{\osdacopyright}[1][]{
+\osdaset{#1}
+\blfootnote{\WrapLR%
+    {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
+    {\href{\osda@paper@url{}}{\qrcode[height=3.8\baselineskip]{\osda@paper@url}}}
+    {\noindent%
+        This work was presented at the \emph{\osda@workshop@counter{}
+        \osda@workshop@longname{} (\osda@workshop@acronym) \osda@date@year{}},
+        \ifthenelse{\isundefined{\osda@hostconference@longname}}{%
+        }{%
+            co-hosted with \emph{\osda@hostconference@longname} %
+            \ifthenelse{\isundefined{\osda@hostconference@acronym}}{%
+            }{%
+                \emph{(\osda@hostconference@acronym)}
+            }%
+            \ifthenelse{\isundefined{\osda@date@year}}{%
+            }{%
+                \emph{\osda@date@year}
+            }%
+        }%
+        in \osda@location@city{}, \osda@location@country{}, on
+        \osda@date@month{} \osda@date@day{}, \osda@date@year{}.  For further
+        information and material, please visit the paper's web page on the
+        workshop website at \href{\osda@paper@url}{\textbf{\osda@paper@url}}
+        (just scan the QR code on the right).
+        %
+        % Copyright and license information
+        %
+        The copyright is retained by the authors.
+        This work is licensed under the terms of the
+        \osda@license@long
+        \ifthenelse{\isundefined{\osda@license@short} \or \equal{\osda@license@short}{}}{%
+        }{ %
+            (\osda@license@short)%
+        }%
+        \ifthenelse{\isundefined{\osda@license@version} \or \equal{\osda@license@version}{}}{%
+        }{, %
+            version \osda@license@version%
+        }%
+        \ifthenelse{\isundefined{\osda@license@url} \or \equal{\osda@license@url}{}}{%
+        }{, %
+            see \href{\osda@license@url{}}{\osda@license@url}%
+        }%
+        %
+        .
+        \emph{\osda@proceedings@title},
+        Pages \osda@proceedings@startpage--\osda@proceedings@endpage, \osda@date@year.
+    }%
+    \vspace{-1.5\baselineskip}
+}}
+%
+% Re-defining the \maketitle command to automatically place the copyright notice
+% once the paper title is generated
+%
+\let\maketitle@orig\maketitle
+\renewcommand{\maketitle}{\maketitle@orig\osdacopyright}
+% \end{macrocode}
+\endinput
