@@ -1,7 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{osda}[2023/03/28 OSDA 2023 Copyright Notice]
 
-%--- Begin of OSDA Proceedings packages ---%
 \RequirePackage[hang,flushmargin]{footmisc}
 \RequirePackage{flushend}
 \RequirePackage{ifthen}
@@ -112,6 +111,25 @@
 
 \ProcessPgfOptions{/osda}
 
+%
+% \osdaset
+%
+% Command to set options for this package.
+%
+% Usage:
+%
+%     \osdaset{key1=value1, key2=value2, ...}
+%
+% Example:
+%
+%     \osdaset{
+%         paper/url=https://osda.ws,
+%         license/long = XYZ license,
+%         license/short = XYZ,
+%         license/version = 1.0,
+%         license/url = https://xyz.org/license
+%     }
+%
 \newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
 
 %
