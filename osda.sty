@@ -198,20 +198,20 @@
 \end{tikzpicture}%
 }}}
 %
-% \copyright
+% \osdanotice
 %
 % This command sets the OSDA copyright notice, taking a URL as argument to set
 % links to the paper's web page, and to create a QR code from.
 %
 % Usage:
 %
-%     \copyright{url}
+%     \osdanotice{url}
 %
 % Example:
 %
-%     \copyright{https://osda.ws}
+%     \osdanotice{https://osda.ws}
 %
-\newcommand{\osdacopyright}[1][]{
+\newcommand{\osdanotice}[1][]{
 \osdaset{#1}
 \blfootnote{\WrapLR%
     {\href{\osda@paper@url{}}{\osdalogo{1.8\baselineskip}}}
@@ -268,6 +268,6 @@
 % once the paper title is generated
 %
 \let\maketitle@orig\maketitle
-\renewcommand{\maketitle}{\maketitle@orig\osdacopyright}
+\renewcommand{\maketitle}{\maketitle@orig\osdanotice}
 %
 %--- End of OSDA Proceedings packages ---%
