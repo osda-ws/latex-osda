@@ -296,6 +296,118 @@
 %     \item{|paper/doi|}
 % \end{itemize}
 %
+% \section{Configuration Options}
+%
+% In the following, we document all configuration options that can be set either
+% when loading the package with |usepackage|, or when using |\osdafootnote|,
+% |\osdanotice|, and |\osdaset|. This package uses |pgfkeys| for managing the
+% keys, and for processing key/value pairs.
+%
+% \begin{tabular}{lp{7cm}}
+%   Key & Description \\
+%   \hline
+%   \hline
+%
+%   |paper/url|
+%   & A URL that points to the web page of the paper on the workshop website.
+%     It can be used to provide additional information and/or supplementing
+%     material. Also, the link to the workshop website proves that the paper is
+%     authentic.
+%   \\
+%
+%   |paper/doi|
+%   & The digital object identifier that is issued to the paper on
+%     publication
+%   \\
+%
+%   |url| & A short cut to |paper/url| \\
+%   |doi| & A short cut to |paper/doi| \\
+%
+%   \hline
+%
+%   |license/long|
+%   & The long form of the name of the license under whose terms the paper is
+%     published
+%   \\
+%
+%   |license/short|
+%   & The short form, or acronym, of the paper's license
+%   \\
+%
+%   |license/version|
+%   & The version of the paper's license
+%   \\
+%
+%   |license/url|
+%   & A URL that points to the paper's license terms
+%   \\
+%   \hline
+%
+%   |proceedings/title|
+%   & The title of the workshop's proceedings
+%   \\
+%
+%   |proceedings/startpage|
+%   & The first page of the paper in the proceedings
+%   \\
+%
+%   |proceedings/endpage|
+%   & The first page of the paper in the proceedings
+%   \\
+%   |pages|
+%   & A shortcut to |proceedings/startpage| and |proceedings/endpage|
+%     that takes two arguments (e.g., |pages={26}{31}|)
+%   \\
+%
+%   \hline
+%
+%   |workshop/counter|
+%   & Specifies the number of the workshop's edition (e.g., |3rd|)
+%   \\
+%
+%   |workshop/longname|
+%   & The long name of the workshop
+%   \\
+%
+%   |workshop/acronym|
+%   & The workshop's acronym
+%   \\
+%
+%   \hline
+%
+%   |location/city|
+%   & The city in which the workshop took place
+%   \\
+%
+%   |location/country|
+%   & The country in which the workshop took place
+%   \\
+%
+%   \hline
+%
+%   |date/month|
+%   & The month in which the workshop took place
+%   \\
+%
+%   |date/day|
+%   & The day on which the workshop took place
+%   \\
+%
+%   |date/year|
+%   & The year in which the workshop took place
+%   \\
+%
+%   \hline
+%
+%   |hostconference/longname|
+%   & The long name of the conference at which the workshop was co-hosted
+%   \\
+%
+%   |hostconference/acronym|
+%   & The acronym of the conference at which the workshop was co-hosted
+%   \\
+% \end{tabular}
+%
 %
 % \StopEventually{}
 % 
@@ -351,6 +463,7 @@
     proceedings/title/.store in = \osda@proceedings@title,
     proceedings/startpage/.store in = \osda@proceedings@startpage,
     proceedings/endpage/.store in = \osda@proceedings@endpage,
+    pages/.code 2 args={\osdaset{proceedings/startpage=#1,proceedings/endpage=#2}},
     workshop/counter/.store in = \osda@workshop@counter,
     workshop/longname/.store in = \osda@workshop@longname,
     workshop/acronym/.store in = \osda@workshop@acronym,
@@ -361,12 +474,6 @@
     date/year/.store in = \osda@date@year,
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
-}
-
-% Convenience key to set the paper's page numbers in the proceedings
-\pgfkeys{
-    /osda/.cd,
-    pages/.code 2 args={\osdaset{proceedings/startpage=#1,proceedings/endpage=#2}},
 }
 
 % Specify default values
