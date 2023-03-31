@@ -57,14 +57,14 @@
     doi=10.1000/182,
 ]{osda}
 \usepackage{cleveref}
-\EnableCrossrefs         
-\CodelineIndex
-\RecordChanges
-\OnlyDescription
+\PassOptionsToClass{a4paper}{article}
+\AtBeginDocument{\OnlyDescription}
+\AtBeginDocument{\CodelineIndex\EnableCrossrefs\RecordChanges}
+\AtBeginDocument{\RecordChanges}
+\AtEndDocument{\DocInput{osda.dtx}}
+\AtEndDocument{\PrintChanges}
+%%\AtEndDocument{\PrintIndex}
 \begin{document}
-  \DocInput{osda.dtx}
-  \PrintChanges
-  %\PrintIndex
 \end{document}
 %</driver>
 % \fi
@@ -412,33 +412,40 @@
 % \StopEventually{}
 % 
 % \section{Implementation}
-% \begin{macrocode}
 %
-
-\RequirePackage[hang,flushmargin]{footmisc}
-\RequirePackage{flushend}
-\RequirePackage{ifthen}
-\RequirePackage{qrcode}
-\RequirePackage{xcolor}
-\RequirePackage{hyperref}
-\hypersetup{
-	colorlinks = true,
-	allcolors  = black,
-}
-\RequirePackage{tikz}
-\RequirePackage{pgfopts}
-
+% \subsection{Initialization macros}
 %
-% \osdaset
+% Here, the package dependencies are defined, along with setting up the packages
+% once loaded.
+%
+% \begin{macrocode}%%
+\RequirePackage[hang,flushmargin]{footmisc}%
+\RequirePackage{flushend}%
+\RequirePackage{ifthen}%
+\RequirePackage{qrcode}%
+\RequirePackage{xcolor}%
+\RequirePackage{hyperref}%
+\hypersetup{%
+	colorlinks = true,%
+	allcolors  = black,%
+}%
+\RequirePackage{tikz}%
+\RequirePackage{pgfopts}%
+
+% \end{macrocode}
+% \begin{macro}{\osdaset}
+%
+% |\osdaset|
 %
 % Command to set options for this package.
 %
 % Usage:
 %
-%     \osdaset{key1=value1, key2=value2, ...}
+%     |\osdaset{key1=value1, key2=value2, ...}|
 %
 % Example:
 %
+%     \begin{verbatim}
 %     \osdaset{
 %         paper/url=https://osda.ws,
 %         license/long = XYZ license,
@@ -446,10 +453,17 @@
 %         license/version = 1.0,
 %         license/url = https://xyz.org/license
 %     }
+%     \end{verbatim}
+% \begin{macrocode}
 %
 \newcommand{\osdaset}[1]{\pgfkeys{/osda/.cd,#1}}
-
-% Define keys
+%
+% \end{macrocode}
+% \end{macro}
+%%
+%% Define keys to manage package and command options
+%%
+% \begin{macrocode}
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
@@ -475,8 +489,13 @@
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
 }
-
-% Specify default values
+%
+% \end{macrocode}
+%%
+%% Specify default values
+%%
+% \begin{macrocode}
+%
 \pgfkeys {
     /osda/.cd,
     license/version = ,
@@ -488,8 +507,13 @@
     paper/url = https://please.specify.the/url/here,
     paper/doi = ,
 }
-
-% Define some useful styles
+%
+% \end{macrocode}
+%%
+%% Define some useful styles
+%%
+% \begin{macrocode}
+%
 \pgfkeys {
     /osda/.cd,
     %
@@ -548,29 +572,44 @@
         license/short = CC0,
     },
 }
-
-\ProcessPgfOptions{/osda}
-
 %
-% The margin defines the space between the logo's right/QR code's left side and
-% the text of the copyright notice
+% \end{macrocode}
+%%
+%% We now process the options passed to the package.
+%%
+% \begin{macrocode}
+%
+\ProcessPgfOptions{/osda}
+%
+% \end{macrocode}
+%%
+%% The margin defines the space between the logo's right/QR code's left side and
+%% the text of the copyright notice
+%%
+% \begin{macrocode}
 %
 \newlength{\osda@margin}
-
 %
-% WrapLR
+% \end{macrocode}
 %
-% Command to place two figures wrapped around text; we use it here for the OSDA
-% logo and the QR code that links to the paper in the acknowledgments box in the
-% footnote of the title page
-%
-% Usage:
-%
-%     \WrapLR{\includegraphics[height=1.2in]{example-image-a}}%
-%         {\includegraphics[height=1.2in]{example-image-b}}%
-%         {\noindent Text to wrap around images}
-%
-% Adapted from: https://tex.stackexchange.com/a/455612
+% \begin{macro}{\WrapLR}
+%%
+%% |\WrapLR|
+%%
+%% Command to place two figures wrapped around text; we use it here for the OSDA
+%% logo and the QR code that links to the paper in the acknowledgments box in the
+%% footnote of the title page
+%%
+%% Usage:
+%%
+%%     \WrapLR{\includegraphics[height=1.2in]{example-image-a}}%
+%%         {\includegraphics[height=1.2in]{example-image-b}}%
+%%         {\noindent Text to wrap around images}
+%%
+%% Adapted from: https://tex.stackexchange.com/a/455612
+%%
+%%
+% \begin{macrocode}
 %
 \newcommand*{\WrapLR}[3]% #1=left image, #2=right image, #3=text (1 paragraph)
 {\bgroup
@@ -602,15 +641,22 @@
   #3\par
 \egroup}
 %
-% blfootnote
+% \end{macrocode}
+% \end{macro}
 %
-% Set footnotes without marks
+% \begin{macro}{\blfootnote}
 %
-% Usage:
-%
-%     \blfootnote{footnotetext}
-%
-% From: https://tex.stackexchange.com/a/30726
+%% |\blfootnote|
+%%
+%% Set footnotes without marks
+%%
+%% Usage:
+%%
+%%     |\blfootnote{footnotetext}|
+%%
+%% From: https://tex.stackexchange.com/a/30726
+%%
+% \begin{macrocode}
 %
 \newcommand\blfootnote[1]{%
   \begingroup
@@ -619,17 +665,24 @@
   \endgroup
 }
 %
-% \osdalogo
+% \end{macrocode}
+% \end{macro}
 %
-% Draws the OSDA logo at a given height
-%
-% Usage:
-%
-%     \osdalogo{height}
-%
-% Example:
-%
-%     \osdalogo{2\baselineskip}
+% \begin{macro}{\osdalogo}
+%%
+%% |\osdalogo|
+%%
+%% Draws the OSDA logo at a given height
+%%
+%% Usage:
+%%
+%%     |\osdalogo{height}|
+%%
+%% Example:
+%%
+%%     |\osdalogo{2\baselineskip}|
+%%
+% \begin{macrocode}
 %
 \usetikzlibrary{svg.path}
 \newcommand{\osdalogo}[1]{\scalebox{1}[-1]{\resizebox*{!}{#1}{%
@@ -640,18 +693,25 @@
 \end{tikzpicture}%
 }}}
 %
-% \osdanotice
+% \end{macrocode}
+% \end{macro}
 %
-% This command sets the OSDA copyright notice, taking a URL as argument to set
-% links to the paper's web page, and to create a QR code from.
-%
-% Usage:
-%
-%     \osdanotice{url}
-%
-% Example:
-%
-%     \osdanotice{https://osda.ws}
+% \begin{macro}{\osdanotice}
+%%
+%% |\osdanotice|
+%%
+%% This command sets the OSDA copyright notice, taking a URL as argument to set
+%% links to the paper's web page, and to create a QR code from.
+%%
+%% Usage:
+%%
+%%     |\osdanotice{url}|
+%%
+%% Example:
+%%
+%%     |\osdanotice{https://osda.ws}|
+%%
+% \begin{macrocode}
 %
 \newcommand{\osdanotice}[1][]{
 \osdaset{#1}
@@ -707,17 +767,24 @@
     }%
 }
 %
-% \osdafootnote
+% \end{macrocode}
+% \end{macro}
 %
-% This command sets the OSDA copyright notice in an un-numbered footnote.
-%
-% Usage:
-%
-%     \osdafootnote{url}
-%
-% Example:
-%
-%     \osdafootnote{https://osda.ws}
+% \begin{macro}{\osdafootnote}
+%%
+%% |\osdafootnote|
+%%
+%% This command sets the OSDA copyright notice in an un-numbered footnote.
+%%
+%% Usage:
+%%
+%%     |\osdafootnote{url}|
+%%
+%% Example:
+%%
+%%     |\osdafootnote{https://osda.ws}|
+%%
+% \begin{macrocode}
 %
 \newcommand{\osdafootnote}[1][]{
     \osdaset{#1}
@@ -725,13 +792,21 @@
     
 }
 %
-% \maketitle
+% \end{macrocode}
+% \end{macro}
 %
-% Re-defining the \maketitle command to automatically place the copyright notice
-% once the paper title is generated
+% \begin{macro}{\maketitle}
+%%
+%% |\maketitle|
+%%
+%% Re-defining the \maketitle command to automatically place the copyright notice
+%% once the paper title is generated
+%%
+% \begin{macrocode}
 %
 \let\maketitle@orig\maketitle
 \renewcommand{\maketitle}{\maketitle@orig\osdafootnote}
 %
 % \end{macrocode}
+% \end{macro}
 \endinput
