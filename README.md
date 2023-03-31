@@ -13,7 +13,7 @@ latex osda.ins
 
 ## Generate the documentation
 
-To generate a PDF with the package documentation, please run the following
+To generate a PDF ``osda.pdf`` with the package documentation, please run the following
 command:
 
 ```
