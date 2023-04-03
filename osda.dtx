@@ -27,7 +27,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{osda}
 %<*package>
-    [2023/03/30 v1.0.0 OSDA copyright notice generator]
+    [2023/04/03 v1.1.0 OSDA copyright notice generator]
 %</package>
 %
 %<*driver>
@@ -89,6 +89,7 @@
 %
 %
 % \changes{v1.0.0}{2023/03/30}{Initial version}
+% \changes{v1.1.0}{2023/04/03}{Adding 'auto' option}
 %
 % \GetFileInfo{osda.sty}
 %
@@ -103,7 +104,7 @@
 % \author{Christian Krieg\\ Workshop on Open-Source Design Automation (OSDA) \\
 %     \texttt{christian@osda.ws}
 % }
-% \date{March 30, 2023}
+% \date{April 03, 2023}
 %
 % \newcommand{\Example}{\vspace{1em}\noindent\textbf{Example:}\vspace{1em}}
 %
@@ -184,7 +185,7 @@
 %
 % \begin{lstlisting}[gobble=6,float=tb,label=lst:usage-osdaset,caption={Explicitly
 %   setting package options}]
-%     \usepackage{osda}
+%     \usepackage[auto=false]{osda}
 %     \osdaset{
 %         2023,
 %         cc-by,
@@ -195,6 +196,19 @@
 % \end{lstlisting}
 %
 % \section{Package Options}
+%
+% \subsection{Automatically setting a footnote}
+%
+% \DescribeMacro{auto}
+% The default behavior when loading this package is that an unnumbered footnote
+% containing a copyright notice is automatically inclued when |\maketitle| is
+% called. If this behavior is not desired, it can be switched off setting the
+% |auto| package option to |false| (see \Cref{lst:option-auto}).
+%
+% \begin{lstlisting}[gobble=6, label=lst:option-auto, caption={Do not
+%     automatically place a footnote with a copyright notice}]
+%     \usepacakge[auto=false]{osda}
+% \end{lstlisting}
 %
 % \subsection{Workshop information}
 %
@@ -283,7 +297,7 @@
 %
 % \begin{lstlisting}[gobble=6, label=lst:option-url, caption={Setting the
 %     paper's URL to its web page on the workshop website}]
-%     \osdaset{https://osda.ws/r/0slLz}
+%     \osdaset{url=https://osda.ws/r/0slLz}
 % \end{lstlisting}
 %
 % \subsection{Digital Object Identifier (DOI)}
@@ -298,14 +312,24 @@
 %
 % \section{Configuration Options}
 %
-% In the following, we document all configuration options that can be set either
-% when loading the package with |usepackage|, or when using |\osdafootnote|,
-% |\osdanotice|, and |\osdaset|. This package uses |pgfkeys| for managing the
-% keys, and for processing key/value pairs.
+% In the \Cref{tbl:package-options}, we document all configuration options that
+% can be set either when loading the package with |usepackage|, or when using
+% |\osdafootnote|, |\osdanotice|, and |\osdaset|. This package uses |pgfkeys|
+% for managing the keys, and for processing key/value pairs.
 %
+% \begin{table}
+% \caption{Package options}
+% \label{tbl:package-options}
 % \begin{tabular}{lp{7cm}}
 %   Key & Description \\
 %   \hline
+%   \hline
+%
+%   |auto|
+%   & Enabling/Disabling auto-setting an un-numbered footnote
+%     containing a copyright notice when calling |\maketitle|. Default: |true|
+%   \\
+%
 %   \hline
 %
 %   |paper/url|
@@ -407,6 +431,7 @@
 %   & The acronym of the conference at which the workshop was co-hosted
 %   \\
 % \end{tabular}
+% \end{table}
 %
 %
 % \StopEventually{}
@@ -460,10 +485,15 @@
 %
 % \end{macrocode}
 % \end{macro}
+% \begin{macrocode}
+
+%%
+%% Specify booleans
+%%
+\newif\ifosda@auto
 %%
 %% Define keys to manage package and command options
 %%
-% \begin{macrocode}
 \pgfkeys {
     /osda/.cd,
     paper/url/.store in = \osda@paper@url,
@@ -489,6 +519,13 @@
     hostconference/longname/.store in = \osda@hostconference@longname,
     hostconference/acronym/.store in = \osda@hostconference@acronym,
 }
+%%
+%% Set boolean flags
+%%
+\pgfkeys {
+    /osda/.cd,
+    auto/.is if=osda@auto,
+}
 %
 % \end{macrocode}
 %%
@@ -498,6 +535,7 @@
 %
 \pgfkeys {
     /osda/.cd,
+    auto = true,
     license/version = ,
     license/url = ,
     license/long = \textbf{\textcolor{red}{{Please specify a license}}},
@@ -717,7 +755,7 @@
 \osdaset{#1}
 \WrapLR%
     {\href{\osda@paper@url}{\osdalogo{1.8\baselineskip}}}
-    {\qrcode[height=1.8\baselineskip,level=L,version=1]{\osda@paper@url}}
+    {\qrcode[height=3.8\baselineskip,level=L,version=1]{\osda@paper@url}}
     {\noindent%
         This work was presented at the \emph{\osda@workshop@counter{}
         \osda@workshop@longname{} (\osda@workshop@acronym) \osda@date@year{}},
@@ -804,8 +842,22 @@
 %%
 % \begin{macrocode}
 %
+%\let\maketitle@orig\maketitle
+%\renewcommand{\maketitle}{%
+%    \ifthenelse{\boolean{\ifosda@auto}}{%
+%        \maketitle@orig\osdafootnote%
+%    }{%
+%        \maketitle@orig%
+%    }%
+%}
 \let\maketitle@orig\maketitle
-\renewcommand{\maketitle}{\maketitle@orig\osdafootnote}
+\renewcommand{\maketitle}{%
+    \ifosda@auto%
+        \maketitle@orig\osdafootnote%
+    \else%
+        \maketitle@orig%
+    \fi%
+}
 %
 % \end{macrocode}
 % \end{macro}
