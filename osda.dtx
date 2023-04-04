@@ -29,7 +29,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{osda}
 %<*package>
-    [2023/04/03 v1.2.0 OSDA copyright notice generator]
+    [2023/04/04 v1.3.0 OSDA copyright notice generator]
 %</package>
 %
 %<*driver>
@@ -93,6 +93,7 @@
 % \changes{v1.0.0}{2023/03/30}{Initial version}
 % \changes{v1.1.0}{2023/04/03}{Adding 'auto' option}
 % \changes{v1.2.0}{2023/04/03}{Updating README}
+% \changes{v1.3.0}{2023/04/04}{Adding presets for the years 2019 and 2020}
 %
 % \GetFileInfo{osda.sty}
 %
@@ -107,7 +108,7 @@
 % \author{Christian Krieg\\ Workshop on Open-Source Design Automation (OSDA) \\
 %     \texttt{christian@osda.ws}
 % }
-% \date{April 03, 2023}
+% \date{April 04, 2023}
 %
 % \newcommand{\Example}{\vspace{1em}\noindent\textbf{Example:}\vspace{1em}}
 %
@@ -240,6 +241,9 @@
 %     workshop-related options for the year 2023}]
 %     \osdaset{2023}
 % \end{lstlisting}
+%
+% Currently, presets for the following years are available:
+% |2023|, |2020|, |2019|
 %
 % \subsection{Paper license}
 %
@@ -570,6 +574,32 @@
         date/month = April,
         date/day = 17,
         date/year = 2023,
+        hostconference/longname = {Design, Automation, and Test in Europe Conference},
+        hostconference/acronym = DATE,
+    },
+    2020/.style={
+        proceedings/title = Proceedings of the 2nd Workshop on Open-Source Design Automation (OSDA),
+        workshop/counter = 2nd,
+        workshop/longname = Workshop on Open-Source Design Automation,
+        workshop/acronym = OSDA,
+        location/city = Grenoble,
+        location/country = France,
+        date/month = March,
+        date/day = 13,
+        date/year = 2020,
+        hostconference/longname = {Design, Automation, and Test in Europe Conference},
+        hostconference/acronym = DATE,
+    },
+    2019/.style={
+        proceedings/title = Proceedings of the 1st Workshop on Open-Source Design Automation (OSDA),
+        workshop/counter = 1st,
+        workshop/longname = Workshop on Open-Source Design Automation,
+        workshop/acronym = OSDA,
+        location/city = Florence,
+        location/country = Italy,
+        date/month = March,
+        date/day = 29,
+        date/year = 2019,
         hostconference/longname = {Design, Automation, and Test in Europe Conference},
         hostconference/acronym = DATE,
     },
