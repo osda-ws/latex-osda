@@ -93,7 +93,10 @@
 % \changes{v1.0.0}{2023/03/30}{Initial version}
 % \changes{v1.1.0}{2023/04/03}{Adding 'auto' option}
 % \changes{v1.2.0}{2023/04/03}{Updating README}
-% \changes{v1.3.0}{2023/04/04}{Adding presets for the years 2019 and 2020}
+% \changes{v1.3.0}{2023/04/04}{
+%     Adding presets for the years 2019 and 2020,
+%     adding inline OSDA logo
+% }
 %
 % \GetFileInfo{osda.sty}
 %
@@ -440,6 +443,36 @@
 % \end{tabular}
 % \end{table}
 %
+% \section{Useful commands}
+%
+% \subsection{Inline logo}
+%
+% \DescribeMacro{\osda}
+% This command prints the OSDA logo inline as shown in the following examples at
+% different font sizes (\Cref{lst:inline-logo}):
+% 
+% \begin{lstlisting}[gobble=6, label=lst:inline-logo, caption={Inline OSDA logo}]
+%     Hello there, \osda{} is the place to be
+%
+%     {\large I agree, \osda{} is the place to be!}
+%
+%     {\small I agree, \osda{} is the place to be!}
+%
+%     {\Huge I agree, \osda{} is the place to be!}
+%
+%     {\tiny I agree, \osda{} is the place to be!}
+% \end{lstlisting}
+%
+% Hello there, \osda{} is the place to be
+%
+% {\large I agree, \osda{} is the place to be!}
+%
+% {\small I agree, \osda{} is the place to be!}
+%
+% {\Huge I agree, \osda{} is the place to be!}
+%
+% {\tiny I agree, \osda{} is the place to be!}
+%
 %
 % \StopEventually{}
 % 
@@ -766,6 +799,24 @@
 %
 % \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\osda}
+%%
+%% |\osda|
+%%
+%% This command prints the OSDA logo inline at a height of 1ex
+%%
+%% Usage:
+%%
+%%     |\osda{}|
+%%
+% \begin{macrocode}
+%
+\newcommand{\osda}{\raisebox{.6\baselineskip}{\osdalogo{.7\baselineskip}}}
+%
+% \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\osdanotice}
 %%
