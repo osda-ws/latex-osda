@@ -1,7 +1,7 @@
 % \iffalse meta-comment
 %
 % osda.ins
-% Copyright 2023 by Christian Krieg (christian@osda.ws)
+% Copyright 2023-2024 by Christian Krieg (christian@osda.ws)
 %
 % This work (excluding the OSDA logo) may be distributed and/or modified under
 % the conditions of the LaTeX Project Public License, either version 1.3 of this
@@ -29,7 +29,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{osda}
 %<*package>
-    [2023/04/04 v1.3.0 OSDA copyright notice generator]
+    [2024/05/01 v1.4.0 OSDA copyright notice generator]
 %</package>
 %
 %<*driver>
@@ -52,7 +52,7 @@
   moredelim=**[is][\ttfamily\bfseries\color{red}]{(*}{*)},
 }
 \usepackage[
-    2023,
+    2024,
     cc-by,
     pages={1}{6},
     url=https://osda.ws/r/0slLz,
@@ -97,6 +97,7 @@
 %     Adding presets for the years 2019 and 2020,
 %     adding inline OSDA logo
 % }
+% \changes{v1.4.0}{2024/05/01}{Adding preset for 2020}
 %
 % \GetFileInfo{osda.sty}
 %
@@ -111,7 +112,7 @@
 % \author{Christian Krieg\\ Workshop on Open-Source Design Automation (OSDA) \\
 %     \texttt{christian@osda.ws}
 % }
-% \date{April 04, 2023}
+% \date{May 01, 2024}
 %
 % \newcommand{\Example}{\vspace{1em}\noindent\textbf{Example:}\vspace{1em}}
 %
@@ -143,7 +144,7 @@
 % \begin{lstlisting}[gobble=6,float=tb,label=lst:usage-example,caption={An
 %     example for the most-frequent use case to use this package}]
 %     \usepackage[
-%         2023,
+%         2024,
 %         cc-by,
 %         pages={1}{6},
 %         url=https://osda.ws/r/0slLz,
@@ -194,7 +195,7 @@
 %   setting package options}]
 %     \usepackage[auto=false]{osda}
 %     \osdaset{
-%         2023,
+%         2024,
 %         cc-by,
 %         pages={1}{6},
 %         url=https://osda.ws/r/0slLz,
@@ -241,12 +242,12 @@
 % example is given in \Cref{lst:option-year}.
 %
 % \begin{lstlisting}[gobble=6, label=lst:option-year, caption={Setting all
-%     workshop-related options for the year 2023}]
-%     \osdaset{2023}
+%     workshop-related options for the year 2024}]
+%     \osdaset{2024}
 % \end{lstlisting}
 %
 % Currently, presets for the following years are available:
-% |2023|, |2020|, |2019|
+% |2024|, |2023|, |2020|, |2019|
 %
 % \subsection{Paper license}
 %
@@ -597,6 +598,19 @@
     %
     % Default values for specific editions of OSDA
     %
+    2024/.style={
+        proceedings/title = Proceedings of the 4th Workshop on Open-Source Design Automation (OSDA),
+        workshop/counter = 4th,
+        workshop/longname = Workshop on Open-Source Design Automation,
+        workshop/acronym = OSDA,
+        location/city = Valencia,
+        location/country = Spain,
+        date/month = March,
+        date/day = 25,
+        date/year = 2024,
+        hostconference/longname = {Design, Automation, and Test in Europe Conference},
+        hostconference/acronym = DATE,
+    },
     2023/.style={
         proceedings/title = Proceedings of the 3rd Workshop on Open-Source Design Automation (OSDA),
         workshop/counter = 3rd,

@@ -28,7 +28,7 @@ above.
 
 ```
 \usepackage[
-    2023,
+    2024,
     cc-by,
     pages={1}{6},
     url=https://osda.ws/r/aaVHo,
@@ -59,7 +59,7 @@ pdflatex osda.dtx
 
 ## License information
 
-Copyright 2023 by Christian Krieg (christian@osda.ws)
+Copyright 2023-2024 by Christian Krieg (christian@osda.ws)
 
 This work (excluding the OSDA logo) may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either version 1.3 of this
